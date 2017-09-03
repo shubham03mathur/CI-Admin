@@ -1,27 +1,33 @@
-<?php
-$perpage = 5;
-if(isset($_GET['page']) & !empty($_GET['page'])){
-	$curpage = $_GET['page'];
-}else{
-	$curpage = 1;
-}
-$start = ($curpage * $perpage) - $perpage;
-$PageSql = $this->db->get('client_info');
+<?php 
+	$perpage = 5;
+    if(isset($_POST['page']) & !empty($_POST['page'])){
+      $curpage = $_POST['page'];
+    }else{
+      $curpage = 1;
+    }
+    $start = ($curpage * $perpage) - $perpage;
+    $PageSql = $this->db->get('client_info');
 
-$totalres = $PageSql->num_rows();
- 
-$endpage = ceil($totalres/$perpage);
-$startpage = 1;
-$nextpage = $curpage + 1;
-$previouspage = $curpage - 1;
- 
-$query = $this->db->get_where('client_info', $start, $perpage);
+    $totalres = $PageSql->num_rows();
+     
+    $endpage = ceil($totalres/$perpage);
+    $startpage = 1;
+    $nextpage = $curpage + 1;
+    $previouspage = $curpage - 1;
+     
+    $query = $this->db->get_where('client_info', $start, $perpage);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
 <title>Esteem  An Admin Panel Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
 <!-- custom-theme -->
+ <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+ <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -355,61 +361,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!-- //agile_top_w3_post_sections-->
 							<!-- /w3ls_agile_circle_progress-->
 							<div class="w3ls_agile_cylinder chart agile_info_shadow">
-							<h3 class="w3_inner_tittle two">Work Board</h3>
-							
-									 	<div class="col-md-6 fallowers_agile agile_info_shadow" style="width:100%">
-									    <h3 class="w3_inner_tittle two">Recent Followers</h3>
-											<div class="work-progres">
-												<div class="table-responsive">
-													<table class="table table-hover" id="datatable-main">
-														<thead>
-															<tr>
-															  <th>Project Id</th>
-															  <th>Project</th>
-															  <th>Manager</th>
-															  <th>Status</th>
-															  <th>Progress</th>
-														  	</tr>
-													    </thead>
-													        <tbody>
-																<?php 
-
-																$arr = $query->result();
-																if($arr){
-																foreach ($arr as $value){
-																?>
-																<tr>
-																  <td><?php echo $value->id ?></td>
-																  <td><?php echo $value->project ?></td>
-																  <td><?php echo $value->type ?></td> 
-																  <td><span class="label label-danger"><?php echo $value->status ?></span></td>
-																  <td><span class="badge badge-info"><?php echo $value->progress ?></span></td>
-																  <td><?php echo $value->remarks ?></span></td>
-																  <td><?php echo $value->created_at ?></span></td>
-															  	</tr>
-															  	<?php } }else {?>
-															  	<tr><td colspan="7"><?php echo('No Records Found!'); ?></td></tr>
-															  	<?php } ?>
-														  	</tbody>
-											  		</table>
-											  		<ul class="pagination">
-											  		<?php if($curpage != $startpage){ ?>
-													  <li class="disabled"><a href="?page=<?php echo $startpage ?>" aria-label="Previous">«</a></li>
-													  <?php } ?>
-													  <?php if($curpage >= 2){ ?>
-													  <li ><a class="page-link" href="?page=<?php echo $previouspage ?>"><?php echo $previouspage ?></a></li>
-													  <?php } ?>
-													  <li class="active"><a class="page-link" href="?page=<?php echo $curpage ?>"><?php echo $curpage ?></a></li>
-													  <?php if($curpage != $endpage){ ?>
-													  <li><a href="?page=<?php echo $endpage ?>" aria-label="Next">»</a></li>
-													  <?php } ?>
-													</ul>
-												</div>
-											</div>											
+								<div class="top-line">
+									<div class="title-board" style="width:49%; float:left;">
+										<h3 class="w3_inner_tittle two">Work Board</h3>
+									</div>
+									<div class="add-new-customer" style="width:49%; float:right; text-align: right;">
+										<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+									      <i class="material-icons">add</i>
+									    </button>
+									</div>
+								</div>
+							 	<div class="col-md-6 fallowers_agile agile_info_shadow" style="width:100%">
+							    <h3 class="w3_inner_tittle two">Recent Followers</h3>
+									<div class="work-progres">
+										<div class="table-responsive">
+										 <?php 
+										 	$CI =& get_instance();
+											$CI->getPagination();
+										 ?>
 										</div>
-									<div class="clearfix"></div>
-										
-								
+									</div>											
+								</div>
+								<div class="clearfix"></div>
 							</div>
 						<!-- /w3ls_agile_circle_progress-->
 						<!-- /chart_agile-->
@@ -1083,8 +1056,22 @@ var chart = AmCharts.makeChart("chartdiv1", {
 <!-- DataTables JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 <script>
-	$(document).ready( function () {
-		$('#datatable-main').DataTable();
+	$(document).ready( function (){
+		function getresult() {
+			$.ajax({
+				url: "<?php echo base_url();?>pagination",
+				type: "POST",
+				data:  {rowcount:$("#rowcount").val(),"pagination_setting":$("#pagination-setting").val()},
+				beforeSend: function(){$("#overlay").show();},
+				success: function(data){
+					console.log(data);
+				//$("#pagination-result").html(data);
+				setInterval(function() {$("#overlay").hide(); },500);
+				},
+				error: function() 
+				{} 	        
+		   });
+		}
 	});
 </script>
 </body>
