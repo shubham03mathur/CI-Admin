@@ -10,7 +10,7 @@
   <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
 <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css'>
 
-      <link rel="stylesheet" href="<?php echo base_url(); ?>css/style.css">
+      <link rel="stylesheet" href="<?php echo base_url(); ?>css/style-custom.css">
 
   
 </head>
@@ -77,7 +77,7 @@
     <script src="<?php echo base_url(); ?>js/index.js"></script>
     <script>
       $('.boxy-final-button').on('click',function(e){
-          e.preventDefault();
+          $('#boxy-login-form').submit();
       });
     </script>
 

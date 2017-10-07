@@ -26,6 +26,10 @@
 <!-- custom-theme -->
  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <!-- Material Design icon font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,6 +52,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="<?php echo base_url(); ?>css/font-awesome.css" rel="stylesheet"> 
 <!-- //font-awesome-icons -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+<script>
+	
+	function addNewClient() {
+		window.open("<?php echo base_url(); ?>index.php/add");
+	}
+	
+</script>
 </head>
 <body>
 <!-- banner -->
@@ -304,15 +315,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											</div>
 										</a>
 									</li>
-										<li>
-										<a href="#">
-											<i class="fa fa-clone" aria-hidden="true"></i>
-											<div class="ca-content">
-												<h4 class="ca-main four">30,808</h4>
-												<h3 class="ca-sub four">New Orders</h3>
-											</div>
-										</a>
-									</li>
 									<div class="clearfix"></div>
 								</ul>
 					   </div>
@@ -366,7 +368,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<h3 class="w3_inner_tittle two">Work Board</h3>
 									</div>
 									<div class="add-new-customer" style="width:49%; float:right; text-align: right;">
-										<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+										<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" onclick="addNewClient()">
 									      <i class="material-icons">add</i>
 									    </button>
 									</div>
@@ -1030,17 +1032,6 @@ var chart = AmCharts.makeChart("chartdiv1", {
 		});
 		</script>
 		<script src="js/flipclock.js"></script>
-	
-	<script type="text/javascript">
-		var clock;
-		
-		$(document).ready(function() {
-			
-			clock = $('.clock').FlipClock({
-		        clockFace: 'HourlyCounter'
-		    });
-		});
-	</script>
 <script src="<?php echo base_url(); ?>js/bars.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.nicescroll.js"></script>
 <script src="<?php echo base_url(); ?>/scripts.js"></script>
@@ -1054,25 +1045,7 @@ var chart = AmCharts.makeChart("chartdiv1", {
 
 
 <!-- DataTables JS -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-<script>
-	$(document).ready( function (){
-		function getresult() {
-			$.ajax({
-				url: "<?php echo base_url();?>pagination",
-				type: "POST",
-				data:  {rowcount:$("#rowcount").val(),"pagination_setting":$("#pagination-setting").val()},
-				beforeSend: function(){$("#overlay").show();},
-				success: function(data){
-					console.log(data);
-				//$("#pagination-result").html(data);
-				setInterval(function() {$("#overlay").hide(); },500);
-				},
-				error: function() 
-				{} 	        
-		   });
-		}
-	});
-</script>
+
+
 </body>
 </html>
