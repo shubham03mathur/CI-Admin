@@ -23,9 +23,5 @@
     	//show login form
       $this->load->view('login_form');
     }
-
-    public function hello() { 
-       echo "This is hello function."; 
-    } 
   } 
 ?>

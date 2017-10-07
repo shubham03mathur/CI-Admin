@@ -12,7 +12,7 @@ class VerifyLogin extends CI_Controller {
  
  function index()
  {
-
+    //print_r("Test"); die();
    //This method will have the credentials validation
    $this->load->library('form_validation');
  
@@ -20,12 +20,20 @@ class VerifyLogin extends CI_Controller {
    $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
    $username = $this->input->post('username');
    $password = $this->input->post('password');
-   //$check = $this->check_database($username,$password);
-   if($this->form_validation->run() == false)
+   $check = $this->check_database($username,$password);
+   if($check == false)
    {
      //Field validation failed.  User redirected to login page
      redirect('admin','refresh');
      $this->load->view('login_form');
+  ?>
+  <script>
+      var _rightCap = $('.end-cap.right');
+      var _leftCap = $('.end-cap.left');
+      _rightCap.addClass('boxy-failure');
+      $('.boxy-failure').find('.icon-failure').stop().fadeIn('slow');
+  </script>
+  <?php
    }
    else
    {
@@ -35,7 +43,7 @@ class VerifyLogin extends CI_Controller {
  
  }
  
- function check_database($password)
+ function check_database($username,$password)
  {
    //Field validation succeeded.  Validate against database
    $username = $this->input->post('username');
